@@ -1,0 +1,137 @@
+<!DOCTYPE html> <!-- filename: index.html -->
+<!--
+    =====================================================================
+    index.html
+    ---------------------------------------------------------------------
+    Tactical Scouting & Player Efficiency Lab - HTML shell.
+
+    ID CONTRACT (referenced by script.ui.js and script.app.js):
+        #searchInput, #sportFilter, #playerRosterList,
+        #compareA, #compareB, #comparisonDisplay, #activePlayerCard
+
+    a11y: explicit <label> associations for search + sport filter,
+    aria-live="polite" on #comparisonDisplay, semantic landmarks.
+    =====================================================================
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tactical Scouting &amp; Player Efficiency Lab</title>
+
+    <link rel="stylesheet" href="style.css" />
+
+    <script defer src="script.io.js"></script>
+    <script defer src="script.ui.js"></script>
+    <script defer src="script.app.js"></script>
+</head>
+
+<body>
+
+    <!-- =================================================================
+         BROADCAST HEADER
+         ================================================================= -->
+    <header class="app-header">
+        <div class="app-header__brand">
+            <span class="app-header__mark" aria-hidden="true">◇</span>
+            <h1 class="app-header__title">Tactical Scouting Lab</h1>
+        </div>
+        <p class="app-header__tagline">
+            Player Efficiency &amp; Role Analysis
+        </p>
+    </header>
+
+    <!-- =================================================================
+         APPLICATION SHELL
+         ================================================================= -->
+    <div class="app-shell">
+
+        <!-- =============================================================
+             SIDEBAR / CONTROL PANEL
+             ============================================================= -->
+        <aside class="sidebar" aria-label="Roster controls">
+
+            <section class="sidebar__block">
+                <h2 class="sidebar__heading">Search</h2>
+                <label for="searchInput" class="visually-hidden">
+                    Search players by name or team
+                </label>
+                <input
+                    type="text"
+                    id="searchInput"
+                    class="field"
+                    placeholder="Search by player name or team..."
+                    autocomplete="off"
+                />
+            </section>
+
+            <section class="sidebar__block">
+                <h2 class="sidebar__heading">Sport Filter</h2>
+                <label for="sportFilter" class="visually-hidden">
+                    Filter roster by sport
+                </label>
+                <select id="sportFilter" class="field">
+                    <option value="all">All Sports</option>
+                    <option value="Basketball">Basketball</option>
+                    <option value="Football">Football</option>
+                </select>
+            </section>
+
+            <section class="sidebar__block sidebar__block--grow">
+                <h2 class="sidebar__heading">Active Roster</h2>
+                <ul id="playerRosterList" class="roster-list">
+                    <!-- Rendered by script.ui.js -->
+                </ul>
+            </section>
+
+        </aside>
+
+        <!-- =============================================================
+             MAIN STAGE
+             ============================================================= -->
+        <main class="stage">
+
+            <section class="comparison-section" aria-labelledby="compareHeading">
+                <h2 id="compareHeading" class="section-heading">
+                    Side-by-Side Comparison
+                </h2>
+
+                <div class="comparison-section__controls">
+                    <div class="comparison-section__slot">
+                        <label for="compareA" class="slot-label">Player A</label>
+                        <select id="compareA" class="field"></select>
+                    </div>
+
+                    <div class="comparison-section__slot">
+                        <label for="compareB" class="slot-label">Player B</label>
+                        <select id="compareB" class="field"></select>
+                    </div>
+                </div>
+
+                <div
+                    id="comparisonDisplay"
+                    class="comparison-display"
+                    aria-live="polite"
+                >
+                    <p class="placeholder-text">
+                        Select two players to generate a metrics comparison.
+                    </p>
+                </div>
+            </section>
+
+            <section class="scouting-card" aria-labelledby="scoutingHeading">
+                <h2 id="scoutingHeading" class="section-heading">
+                    Scouting Journal
+                </h2>
+                <div id="activePlayerCard" class="scouting-card__body">
+                    <p class="placeholder-text">
+                        Select a player from the roster to open their scouting file.
+                    </p>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+</body>
+</html>
