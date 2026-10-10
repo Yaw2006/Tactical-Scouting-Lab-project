@@ -1,0 +1,683 @@
+/* filename: style.css */
+/* =====================================================================
+   style.css
+   ---------------------------------------------------------------------
+   Tactical Scouting & Player Efficiency Lab - ESPN / NBA broadcast
+   analytics aesthetic.
+
+   FIX IN THIS PASS:
+     The VS badge and the two comparison slots use explicit grid-row
+     bindings. Without grid-row, auto-placement placed ::before in
+     row 1, then wrapped Slot A (column 1) to row 2. Binding all three
+     to row 1 (desktop) and rows 1/2/3 (mobile) guarantees the intended
+     visual order.
+   ===================================================================== */
+
+
+/* ---------------------------------------------------------------------
+   1. DESIGN TOKENS
+   --------------------------------------------------------------------- */
+:root {
+    --bg-color:        #f4f5f7;
+    --card-bg:         #ffffff;
+    --accent-color:    #cc0000;
+    --accent-hover:    #a80000;
+    --accent-tint:     rgba(204, 0, 0, 0.08);
+    --text-primary:    #111827;
+    --text-secondary:  #4b5563;
+    --text-inverse:    #ffffff;
+    --border-color:    #e5e7eb;
+    --border-strong:   #d1d5db;
+    --surface-dark:    #111827;
+
+    --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-mono: "SFMono-Regular", Menlo, Consolas, monospace;
+
+    --space-xs:  0.25rem;
+    --space-sm:  0.5rem;
+    --space-md:  1rem;
+    --space-lg:  1.5rem;
+    --space-xl:  2rem;
+    --space-2xl: 3rem;
+
+    --sidebar-width: 320px;
+    --max-shell-width: 1440px;
+
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --radius-lg: 10px;
+
+    --shadow-sm: 0 1px 2px rgba(17, 24, 39, 0.06);
+    --shadow-md: 0 4px 10px rgba(17, 24, 39, 0.08);
+
+    --transition-fast: 150ms ease;
+    --transition-base: 220ms ease;
+}
+
+
+/* ---------------------------------------------------------------------
+   2. BASE RESET + TYPOGRAPHY
+   --------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4 {
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: var(--text-primary);
+}
+
+p { margin: 0; }
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+button,
+input,
+select {
+    font: inherit;
+    color: inherit;
+}
+
+.visually-hidden {
+    position: absolute !important;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+
+/* ---------------------------------------------------------------------
+   3. UTILITY CLASSES
+   --------------------------------------------------------------------- */
+.section-heading {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-primary);
+    padding-left: var(--space-sm);
+    border-left: 4px solid var(--accent-color);
+    margin-bottom: var(--space-md);
+}
+
+.placeholder-text {
+    color: var(--text-secondary);
+    font-style: italic;
+    font-size: 0.9rem;
+    padding: var(--space-lg);
+    text-align: center;
+}
+
+.field {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    background-color: var(--card-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    transition: border-color var(--transition-fast),
+                box-shadow var(--transition-fast);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+select.field {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path fill='%23111827' d='M6 8L2 4h8z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 12px;
+    padding-right: 2rem;
+}
+
+.field:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.15);
+}
+
+.field:hover {
+    border-color: var(--text-secondary);
+}
+
+
+/* ---------------------------------------------------------------------
+   4. APP HEADER
+   --------------------------------------------------------------------- */
+.app-header {
+    position: relative;
+    background-color: var(--surface-dark);
+    color: var(--text-inverse);
+    padding: var(--space-lg) var(--space-xl);
+    border-bottom: 4px solid var(--accent-color);
+    box-shadow: var(--shadow-md);
+}
+
+.app-header__brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.app-header__mark {
+    color: var(--accent-color);
+    font-size: 1.6rem;
+    line-height: 1;
+}
+
+.app-header__title {
+    font-size: 1.35rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--text-inverse);
+}
+
+.app-header__tagline {
+    margin-top: var(--space-xs);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+
+/* ---------------------------------------------------------------------
+   5. APP SHELL GRID
+   --------------------------------------------------------------------- */
+.app-shell {
+    display: grid;
+    grid-template-columns: var(--sidebar-width) 1fr;
+    gap: var(--space-lg);
+    max-width: var(--max-shell-width);
+    margin: 0 auto;
+    padding: var(--space-lg) var(--space-xl) var(--space-2xl);
+    align-items: start;
+}
+
+
+/* ---------------------------------------------------------------------
+   6. SIDEBAR + ROSTER
+   --------------------------------------------------------------------- */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+
+    position: sticky;
+    top: var(--space-lg);
+
+    max-height: calc(100vh - 3rem);
+    overflow-y: auto;
+
+    padding-right: var(--space-xs);
+}
+
+.sidebar__block {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    box-shadow: var(--shadow-sm);
+}
+
+.sidebar__block--grow {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.sidebar__heading {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-sm);
+}
+
+.roster-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    max-height: 480px;
+    overflow-y: auto;
+    padding-right: var(--space-xs);
+}
+
+.roster-list li[data-player-id] {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--border-color);
+    border-left: 4px solid transparent;
+    border-radius: var(--radius-md);
+    background-color: var(--card-bg);
+    cursor: pointer;
+    transition: border-color var(--transition-fast),
+                background-color var(--transition-fast),
+                transform var(--transition-fast);
+}
+
+.roster-list li[data-player-id]:hover {
+    background-color: var(--bg-color);
+    border-left-color: var(--accent-color);
+    transform: translateX(2px);
+}
+
+.roster-list li[data-player-id].is-active {
+    background-color: var(--accent-tint);
+    border-left-color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.roster-list li .roster-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+}
+
+.roster-list li .roster-meta {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+}
+
+.roster-list li img {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.roster-list li.placeholder-text {
+    cursor: default;
+    border: 0;
+    background: transparent;
+    transform: none;
+    justify-content: center;
+}
+
+
+/* ---------------------------------------------------------------------
+   7. MAIN STAGE
+   --------------------------------------------------------------------- */
+.stage {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    min-width: 0;
+}
+
+
+/* ---------------------------------------------------------------------
+   8. COMPARISON SECTION
+   ---------------------------------------------------------------------
+   FIX: explicit grid-row bindings. Without them, ::before occupies
+   row 1 and both slots wrap to row 2 because auto-placement cannot
+   backtrack past ::before to place Slot A in column 1 row 1.
+   Binding all three children to row 1 fixes desktop.
+   --------------------------------------------------------------------- */
+.comparison-section {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.comparison-section__controls {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: end;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.comparison-section__slot:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.comparison-section__controls::before {
+    content: "VS";
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    justify-self: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+    color: var(--text-inverse);
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    box-shadow: var(--shadow-md);
+}
+
+.comparison-section__slot:nth-child(2) {
+    grid-column: 3;
+    grid-row: 1;
+}
+
+.comparison-section__slot {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.slot-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-secondary);
+}
+
+.comparison-display {
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-color);
+    min-height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.comparison-display.has-data {
+    border-style: solid;
+    border-color: var(--border-color);
+    background-color: var(--card-bg);
+    display: block;
+    padding: var(--space-md);
+}
+
+
+/* ---------------------------------------------------------------------
+   9. COMPARISON TABLE
+   ---------------------------------------------------------------------
+   NOTE: with table-layout: fixed, column widths are driven by the
+   header row. The 30% width must therefore live on the header cell
+   (thead th:nth-child(2)) rather than the tbody cell.
+   --------------------------------------------------------------------- */
+.comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    table-layout: fixed;
+}
+
+.comparison-table thead th {
+    text-align: center;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-secondary);
+    padding: var(--space-sm) var(--space-xs);
+    border-bottom: 2px solid var(--border-color);
+    word-break: break-word;
+}
+
+.comparison-table thead th:nth-child(2) {
+    width: 30%;
+}
+
+.comparison-table tbody td {
+    text-align: center;
+    padding: var(--space-sm) var(--space-xs);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.comparison-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.diff-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.diff-value {
+    font-family: var(--font-mono);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.diff-value.is-win {
+    color: var(--accent-color);
+    background-color: var(--accent-tint);
+    border-radius: var(--radius-sm);
+}
+
+
+/* ---------------------------------------------------------------------
+   10. SCOUTING CARD
+   --------------------------------------------------------------------- */
+.scouting-card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.scouting-card__body {
+    display: flex;
+    gap: var(--space-lg);
+    align-items: flex-start;
+}
+
+.scouting-card__portrait {
+    flex: 0 0 140px;
+    text-align: center;
+}
+
+.scouting-card__portrait img {
+    width: 140px;
+    height: 140px;
+    border-radius: var(--radius-lg);
+    border: 3px solid var(--accent-color);
+    background-color: var(--bg-color);
+    object-fit: cover;
+}
+
+.scouting-card__name {
+    margin-top: var(--space-sm);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.scouting-card__team {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+}
+
+.scouting-card__details {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.scouting-card__metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+}
+
+.metric-tile {
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--space-sm);
+    text-align: center;
+}
+
+.metric-tile__label {
+    display: block;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-xs);
+}
+
+.metric-tile__value {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+.scouting-card__role {
+    background-color: var(--bg-color);
+    border-left: 4px solid var(--accent-color);
+    border-radius: var(--radius-sm);
+    padding: var(--space-md);
+}
+
+.scouting-card__role-label {
+    display: block;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-xs);
+}
+
+.scouting-card__role-text {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    line-height: 1.55;
+}
+
+
+/* ---------------------------------------------------------------------
+   11. RESPONSIVE STRATEGY
+   ---------------------------------------------------------------------
+   FIX: on mobile, each control owns a distinct row so the VS badge
+   sits BETWEEN slot A (row 1) and slot B (row 3). Explicit grid-row
+   bindings guarantee source-order independence.
+   --------------------------------------------------------------------- */
+@media (max-width: 768px) {
+
+    .app-shell {
+        grid-template-columns: 1fr;
+        padding: var(--space-md);
+    }
+
+    .sidebar {
+        position: static;
+        max-height: none;
+        overflow: visible;
+        padding-right: 0;
+    }
+
+    .sidebar__block--grow {
+        max-height: none;
+    }
+
+    .roster-list {
+        max-height: none;
+    }
+
+    .comparison-section__controls {
+        grid-template-columns: 1fr;
+    }
+
+    .comparison-section__slot:nth-child(1) {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .comparison-section__controls::before {
+        grid-column: 1;
+        grid-row: 2;
+        justify-self: center;
+        align-self: center;
+    }
+
+    .comparison-section__slot:nth-child(2) {
+        grid-column: 1;
+        grid-row: 3;
+    }
+
+    .scouting-card__body {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .scouting-card__portrait {
+        flex: 0 0 auto;
+        align-self: center;
+    }
+
+    .scouting-card__metrics {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .app-header {
+        padding: var(--space-md);
+    }
+
+    .app-header__title {
+        font-size: 1.05rem;
+        letter-spacing: 0.12em;
+    }
+}
+
+@media (max-width: 480px) {
+    .scouting-card__metrics {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .app-header__tagline {
+        font-size: 0.65rem;
+        letter-spacing: 0.14em;
+    }
+}
